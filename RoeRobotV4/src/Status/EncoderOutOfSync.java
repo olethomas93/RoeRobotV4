@@ -16,11 +16,11 @@ public class EncoderOutOfSync extends Status
       //Status name for this class
     private static final String STATUS = "ENCODER_OUT_OF_SYNC";
     //Address for this status
-    private static final byte COMMAND_ADDRESS = 0x65;
+    private static final byte STATUS_ADDRESS = 0x65;
     
     public EncoderOutOfSync( )
     {
-        super(COMMAND_ADDRESS , STATUS);
+        super(STATUS_ADDRESS , STATUS);
     }
     
     

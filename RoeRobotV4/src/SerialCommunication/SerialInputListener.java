@@ -6,7 +6,10 @@
 package SerialCommunication;
 
 /**
- *
+ * This class is used for as "notify" functions with listeners
+ * Between the Serial port and implementing classes
+ * Raw data is put in the parameter fields
+ * 
  * @author kristianandrelilleindset
  */
 public interface SerialInputListener 

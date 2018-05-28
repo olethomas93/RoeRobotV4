@@ -6,7 +6,7 @@
 package Commands;
 
 /**
- *
+ * Command to turn STOP
  * @author PerEspen
  */
 public class Stop extends Commando

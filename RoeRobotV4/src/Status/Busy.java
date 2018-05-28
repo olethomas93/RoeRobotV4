@@ -6,21 +6,21 @@
 package Status;
 
 /**
- *
+ * T
  * @author PerEspen
  */
 public class Busy extends Status
 {
       //Status name for this class
     private static final String STATUS = "BUSY";
-    
-    private static final byte COMMAND_ADDRESS = 0x50;
+    //Status address
+    private static final byte STATUS_ADDRESS = 0x50;
     
     /**
      *
      */ 
     public Busy()
     {
-        super(COMMAND_ADDRESS, STATUS);
+        super(STATUS_ADDRESS, STATUS);
     }
 }

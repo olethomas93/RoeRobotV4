@@ -13,6 +13,7 @@ import Commands.Commando;
  */
 public class Velocity extends Commando
 {
+    //The command address
      private static final byte COMMAND_ADDRESS = 0x20;
     
     public Velocity()

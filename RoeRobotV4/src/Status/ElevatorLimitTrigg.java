@@ -13,11 +13,11 @@ public class ElevatorLimitTrigg extends Status
       //Status name for this class
     private static final String STATUS = "ELEVATOR_LIMIT_TRIGG";
     //Address for this status
-    private static final byte COMMAND_ADDRESS = 0x63;
+    private static final byte STATUS_ADDRESS = 0x63;
     
     public ElevatorLimitTrigg(  )
     {
-        super(COMMAND_ADDRESS, STATUS);
+        super(STATUS_ADDRESS, STATUS);
         
         // set critical value to true
         super.setCritical(true);

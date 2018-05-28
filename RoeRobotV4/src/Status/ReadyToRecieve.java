@@ -14,10 +14,10 @@ public class ReadyToRecieve extends Status
     //Status name for this class
     private static final String STATUS = "READY";
     //Address for this status
-    private static final byte COMMAND_ADDRESS = 0x51;
+    private static final byte STATUS_ADDRESS = 0x51;
     
         public ReadyToRecieve( )
     {
-        super(COMMAND_ADDRESS , STATUS);
+        super(STATUS_ADDRESS , STATUS);
     }
 }

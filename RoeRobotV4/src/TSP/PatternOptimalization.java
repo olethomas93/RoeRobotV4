@@ -22,7 +22,7 @@ public class PatternOptimalization {
     private int nrOfPopulations = 400;
 
     // Number of populations to generate !!can not be an odd number
-    private int nrOfGenerations = 11;
+    private int nrOfGenerations = 10;
 
     // Arraylist holding on all coordinates for a specific tour. 
     private ArrayList<Coordinate> coordinatList;

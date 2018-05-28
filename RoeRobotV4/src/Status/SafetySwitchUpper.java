@@ -14,11 +14,11 @@ public class SafetySwitchUpper extends Status
       //Status name for this class
     private static final String STATUS = "SAFETY_SWITCH_UPPER";
     //Address for this status
-    private static final byte COMMAND_ADDRESS = 0x61;
+    private static final byte STATUS_ADDRESS = 0x61;
     
     public SafetySwitchUpper()
     {
-        super(COMMAND_ADDRESS, STATUS);
+        super(STATUS_ADDRESS, STATUS);
         
         // set critical value to true
         super.setCritical(true);

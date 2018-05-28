@@ -8,7 +8,7 @@ package Commands;
 import Commands.Commando;
 
 /**
- *
+ * Command to turn return the current state
  * @author PerEspen
  */
 public class StateRequest extends Commando

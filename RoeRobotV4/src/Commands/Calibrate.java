@@ -8,23 +8,18 @@ package Commands;
 import Commands.Commando;
 
 /**
- * Command for the I2C device's to do a calibration
+ * Command to do calibration
  * @author PerEspen
  */
 public class Calibrate extends Commando
 {
-    private byte[] xSteps;
-    private byte[] ySteps;
-    private byte[] zSteps;
-    private final static int defaultByte = 0;
-
     
+    //The command address
     private static final byte COMMAND_ADDRESS = 0x10;
     
     public Calibrate( )
     {
         super(COMMAND_ADDRESS);
-      //  super.setNrOfBytes(defaultByte);
     }
 
 

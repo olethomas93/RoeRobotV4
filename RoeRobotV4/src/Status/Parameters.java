@@ -22,7 +22,7 @@ public class Parameters extends Status
     private static final String STATUS = "PARAMETERS";
 
     //ADDRESS For this status command
-    private static final byte COMMAND_ADDRESS = 0x70;
+    private static final byte STATUS_ADDRESS = 0x70;
 
     private static final byte DEFAULT_BYTE_RANGE = Integer.BYTES;
 
@@ -47,7 +47,7 @@ public class Parameters extends Status
     public Parameters()
     {
         //Put superclass params
-        super(COMMAND_ADDRESS, STATUS);
+        super(STATUS_ADDRESS, STATUS);
         
         //Create tray reg
         trayReg = new TrayRegister();
@@ -64,7 +64,7 @@ public class Parameters extends Status
 
     public static byte getCMD()
     {
-        return COMMAND_ADDRESS;
+        return STATUS_ADDRESS;
     }
 
     /*

@@ -13,11 +13,11 @@ public class Stopped extends Status
 {
     //Status name for this class
     private static final String STATUS = "STOPPED";
-    
-    private static final byte COMMAND_ADDRESS = 0x52;
+    //The status address
+    private static final byte STATUS_ADDRESS = 0x52;
     
     public Stopped( )
     {
-        super(COMMAND_ADDRESS, STATUS);
+        super(STATUS_ADDRESS, STATUS);
     }
 }

@@ -15,11 +15,11 @@ public class EncoderOutOfRange extends Status
       //Status name for this class
     private static final String STATUS = "ENCODER_OUT_OF_RANGE";
     //Address for this status
-    private static final byte COMMAND_ADDRESS = 0x66;
+    private static final byte STATUS_ADDRESS = 0x66;
     
     public EncoderOutOfRange(  )
     {
-        super(COMMAND_ADDRESS, STATUS);
+        super(STATUS_ADDRESS, STATUS);
     }
     
     

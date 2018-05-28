@@ -8,7 +8,7 @@ package Commands;
 import Commands.Commando;
 
 /**
- *
+ * Command to turn light on or off
  * @author PerEspen
  */
 public class Light extends Commando
@@ -21,6 +21,8 @@ public class Light extends Commando
     public Light( )
     {
         super(COMMAND_ADDRESS);
+        //Not meant for elevator controller
+        super.setForElevatorRobot(false);
     }
     
     
@@ -42,7 +44,9 @@ public class Light extends Commando
     }
     
       
-      
+      /**
+       * Set the byte to ON value
+       */
       public void setOn()
       {
          byte[] controlByte = new byte[1];
@@ -51,6 +55,9 @@ public class Light extends Commando
         this.setValue(controlByte);
       }
       
+      /**
+       * Set the byte to OFF value
+       */
        public void setOff()
       {
          byte[] controlByte = new byte[1];

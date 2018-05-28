@@ -16,11 +16,11 @@ public class EMC extends Status
       //Status name for this class
     private static final String STATUS = "EMC"; 
     //Address for this status
-    private static final byte COMMAND_ADDRESS = 0x60;
+    private static final byte STATUS_ADDRESS = 0x60;
     
     public EMC( )
     {
-        super(COMMAND_ADDRESS, STATUS);
+        super(STATUS_ADDRESS, STATUS);
         
         // set critical value to true
         super.setCritical(true);

@@ -78,11 +78,10 @@ public class SerialJComm extends Thread
         try
         {
             System.out.println("Opening Port. ");
+            //Wait for connection
             Thread.sleep(500);
             initializePort();
             Thread.sleep(1000);
-            //Return the streams from the port
-            //System.out.println("Setup done");
 
         } catch (InterruptedException ex)
         {
@@ -106,70 +105,22 @@ public class SerialJComm extends Thread
     private void initializePort()
     {
         //Opening the port and setting the buad rate
-        // this.port = SerialPort.getCommPort(portName);
         this.port.setBaudRate(DATA_RATE);
-        //this.port.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100, 0);
+        
         //Try to open the port
         this.port.openPort();
         port.setComPortTimeouts(port.TIMEOUT_READ_SEMI_BLOCKING, 0,0);
-        //Return the writer stream
-        //  writer = port.getOutputStream();
+
 
         //Return the input stream
-        //reader = port.getInputStream();
         // creates an inputstream for reading data
         this.input = new BufferedReader(new InputStreamReader(this.port.getInputStream()));
 
-        // System.out.println("Settings for port is done");
-        //Adding listener and implementing the serial event
-        // add eventlisteners   
-        /*
-        port.addDataListener(new SerialPortDataListener()
-        {
-            @Override
-            public int getListeningEvents()
-            {
-                return SerialPort.LISTENING_EVENT_DATA_AVAILABLE;
-            }
 
-            @Override
-            public synchronized void serialEvent(com.fazecast.jSerialComm.SerialPortEvent event)
-            {
-                if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
-                {
-                    return;
-                }
-
-                if (port.bytesAvailable() == 0)
-                {
-                    /*
-                    try
-                    {
-                        //A little sleep for to get all data on the line
-                        Thread.sleep(5);
-                    } catch (InterruptedException ex)
-                    {
-                        Logger.getLogger(SerialJComm.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                     */
-        /*
-                    try
-                    {
-                        String[] inputStringArr = input.readLine().split(",");
-                        notifyListeners(inputStringArr);
-                    } catch (IOException ex)
-                    {
-                        System.out.println("Reader threw exception");
-                        Logger.getLogger(SerialJComm.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                } 
-            }
-        });
-        */
+       
     }
     
-           @Override
+     @Override
     public void run()
     {
         //While loop to keep thread running as long as port is open
@@ -299,6 +250,7 @@ public class SerialJComm extends Thread
         //Check what the string was, and do another search on possible port name
         if (foundPort == null)
         {
+            //If the device has changed from ACM0 to ACM1
             if (findPort.contentEquals("ttyACM0"))
             {
                 findPort = "ttyACM1";
@@ -314,16 +266,12 @@ public class SerialJComm extends Thread
 
             }
         }
-        if(foundPort != null)
-            {
-                System.out.println("Found port:" + foundPort.getSystemPortName());
-            }
 
         return foundPort;
     }
 
     /**
-     * THE WRITER PART OF THE SERIAL PORT *
+     **** THE WRITER PART OF THE SERIAL PORT ****
      */
     /**
      * sends the data received from the function call
@@ -333,8 +281,6 @@ public class SerialJComm extends Thread
         // try to send the read data
         try
         {
-
-            // this.setDataToBeSent(bytesToSend);
             //Print the data to be sent - for debugging
             System.out.println("Writer sending data");
             String inputString = new String(this.getDataToSend(), "UTF-8");
@@ -355,7 +301,6 @@ public class SerialJComm extends Thread
      */
     public synchronized void sendData(String stringToSend)
     {
-
         // try to send the read data
         try
         {
@@ -380,7 +325,7 @@ public class SerialJComm extends Thread
     }
 
     /**
-     * sends the data received from the function call
+     * Sends the data saved in the "data to be sent" field
      */
     private synchronized void sendData()
     {
@@ -407,7 +352,10 @@ public class SerialJComm extends Thread
         }
 
     }
-
+    /**
+     * Set value to the data to be sent field
+     * @param dataString Data string to be sent
+     */
     public synchronized void setDataToBeSent(String dataString)
     {
         // setting the start and stopbytes of the data to be sent
@@ -422,11 +370,13 @@ public class SerialJComm extends Thread
         {
             Logger.getLogger(SerialJComm.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         this.dataToSend = true;
-
     }
-
+    /**
+    * Set the data to be sent, in the databyte byte arr
+    * @param dataByte Data to be sent
+    */
     private synchronized void setDataToBeSent(byte[] dataByte)
     {
         // setting the start and stopbytes of the data to be sent
@@ -443,12 +393,18 @@ public class SerialJComm extends Thread
         }
 
     }
-
+    /**
+     * Return data in data to be sent field
+     * @return byte array of the sending data
+     */
     private synchronized byte[] getDataToSend()
     {
         return this.dataToBeSent;
     }
-
+    /**
+     * Resize the send data with given param length
+     * @param byteLength length of byte arr
+     */
     private void reziseSendData(int byteLength)
     {
         this.dataToBeSent = new byte[byteLength];
@@ -522,8 +478,9 @@ public class SerialJComm extends Thread
      *
      * @param oEvent
      */
- /*
-    @Override
+ 
+   /* @Override
+    
     public synchronized void serialEvent(SerialPortEvent oEvent)
     {
 
@@ -553,5 +510,6 @@ public class SerialJComm extends Thread
             }
         }
     }
-     */
+*/
+     
 
