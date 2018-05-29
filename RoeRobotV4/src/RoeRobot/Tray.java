@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package RoeRobot;
 
 import java.util.ArrayList;
+
 
 /**
  * Class represents a tray. The tray has a width, hight and a depth. The tray
@@ -14,7 +11,12 @@ import java.util.ArrayList;
  *
  * @author Yngve
  */
-public class Tray{
+public class Tray
+{
+    
+    
+    
+    
     //Number for this tray
     private final int nr;
  
@@ -119,10 +121,11 @@ public class Tray{
         cameraHeight = (double)flagposZ + bottomFlagToTraySurface - 8;
         
         // fill list with camera coordinates
-        this.createCameraCoordinates();
-
-        
+        this.createCameraCoordinates();      
     }
+    
+    
+    
 
     /**
      * fill the array of cameracoordinates 

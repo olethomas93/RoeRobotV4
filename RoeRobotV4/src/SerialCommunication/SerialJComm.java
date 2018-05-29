@@ -6,7 +6,6 @@
 package SerialCommunication;
 
 import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,20 +18,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Yngve
+ * This class creates and maintains the Serial port connection
+ * @author Per Espen
  */
 public class SerialJComm extends Thread
 {
-
+    
     //The serial port
     private SerialPort port;
 
     //The serial port name
     private String portName;
     
-      // variable holding the timeout variable
-    private static final int TIME_OUT = 2000;
 
     // variable holding the desired rate of sending and receiving data 
     private static final int DATA_RATE = 115200;
@@ -65,7 +62,6 @@ public class SerialJComm extends Thread
         // creating the arrayList of listeners 
         this.listeners = new ArrayList<>();
 
-        //this.inputStringData = new String[20];
     }
 
     /**
@@ -464,52 +460,4 @@ public class SerialJComm extends Thread
         }
     }
 }
-    
- 
-    
-    
-    
-    /*
-    /**
-     * Handles event on the serial port. Checks if there is data coming in from
-     * the serial port. Reads incoming data and saves it to an byte array. Then
-     * checks if the message received contains the correct order of startbyte
-     * and stopbyte and number of received bytes.
-     *
-     * @param oEvent
-     */
- 
-   /* @Override
-    
-    public synchronized void serialEvent(SerialPortEvent oEvent)
-    {
-
-        // check if the event is data being received on the serial port
-        if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE)
-        {
-            System.out.println("kjome");
-            try
-            {
-
-                System.out.println(input.read());
-                // saving the input data to an string array, each element seperated by an "/"
-                this.inputData = this.input.readLine().split(",");
-                //TODO: Printing
-                System.out.println("Reading bus");
-                System.out.println(Arrays.toString(inputData));
-                // notify all the listeners of data available for reading
-                this.notifyListeners(inputData);
-                // Fill the input data with null, so no stored values will 
-                //be carried over to next message
-                Arrays.fill(inputData, null);
-
-            } catch (IOException ex)
-            {
-                System.out.println("bitches ass" + ex.getMessage());
-                //    System.out.println("reader lesing " + ex.toString());
-            }
-        }
-    }
-*/
      
-

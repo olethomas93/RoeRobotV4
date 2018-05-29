@@ -77,19 +77,20 @@ public class RoeRobotFasade
     /**
      * Change the level of the lights  
      * 
-     * @param redVal
-     * @param greenVal
-     * @param blueVal
+     * @param redVal RED value
+     * @param greenVal GREEN value
+     * @param blueVal BLUE value
      */
     public void regulateLights(int redVal, int greenVal, int blueVal)
     {
         this.roeAnalyser.setLightVal(redVal, greenVal, blueVal);
     }
 
-    
+    /**
+     * 
+     */
     public void continueRobot() 
     {
-        
        this.roeAnalyser.unPauseRobot();
     }
 

@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * THE GUI ROBOT GUI
  */
 package GUI;
 
@@ -25,9 +23,9 @@ import org.opencv.videoio.VideoCapture;
 import RoeRobot.Tray;
 import RoeRobot.TrayProcessedListener;
 
-//import org.opencv.highgui.HighGui;
 /**
- *
+ * THE ROE ROBOT GUI
+ * 
  * @author Kristoffer
  */
 public final class RoeBot extends javax.swing.JFrame  implements ImageCaptureListener, TrayProcessedListener{
@@ -65,6 +63,7 @@ public final class RoeBot extends javax.swing.JFrame  implements ImageCaptureLis
    
     private int deadRoeInTray;
     
+    //The current tray
     Tray workingTray;
 
     /**

@@ -8,7 +8,6 @@ package RoeRobot;
 import Commands.CalibParam;
 import Commands.Calibrate;
 import Commands.ChangeLedColor;
-import Commands.Commando;
 import Commands.Light;
 import Commands.MagnetOn;
 import Commands.Move;

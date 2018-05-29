@@ -8,7 +8,7 @@ package GUI;
 import javax.swing.JLabel;
 
 /**
- *
+ * Show top tray open
  * @author Laptop1
  */
 public class RackTopOpen extends javax.swing.JPanel {

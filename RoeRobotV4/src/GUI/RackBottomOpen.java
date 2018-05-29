@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUI;
 
 import javax.swing.JLabel;
 
 /**
- *
- * @author Laptop1
+ * Show bottom tray open in rack
+ * @author Kristoffer
  */
 public class RackBottomOpen extends javax.swing.JPanel {
 

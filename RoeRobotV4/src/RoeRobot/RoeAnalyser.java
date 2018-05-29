@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package RoeRobot;
 
 import ImageProcessing.ImageProcessing;
@@ -10,12 +5,10 @@ import ImageProcessing.ImageProcessingListener;
 import ImageProcessing.RoeImage;
 import java.util.ArrayList;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import TSP.PatternOptimalization;
 
 /**
- * Roe analyser c\
+ * The main switch case Roe Analyser
  *
  * @author Yngve
  */
@@ -48,7 +41,8 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
         StopRobot;
 
     }
-
+    
+    //Pause boolean
     private boolean pause = false;
 
     // Velocity for running
@@ -93,22 +87,26 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
     // Roe image containing all dead roa coodrinates. 
     private ArrayList<RoeImage> imageList;
 
-    public RoeAnalyser(ScheduledExecutorService threadPool) {
+    public RoeAnalyser(ScheduledExecutorService threadPool) 
+    {
         this.threadPool = threadPool;
         this.roeAnalyserDevice = new RoeAnalyserDevice();
+        
         //Create image processor and add listener
         this.imageProsseser = new ImageProcessing();
         this.imageProsseser.addListener(this);
         this.threadPool.execute(imageProsseser);
-
+        
         this.patternOptimalizater = new PatternOptimalization();
-
+        
         this.imageList = new ArrayList<>();
         this.trayIsOpen = false;
         
+        //Set the pause to fault
         this.pause = false;
     }
-
+    
+    
     private void cycleCase() {
 
         switch (currentState) {
@@ -118,10 +116,11 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
                 // Call on calibrate method in roeAnalyser
                 // Call on nrOfTrays from raoAnalyser.
                 //this.roeAnalyserDevice.changeVelocity(this.runningVelocity);
+               // Starts the calibration cycle
                 this.roeAnalyserDevice.calibrate();
                 this.trayRegister = this.roeAnalyserDevice.getCalibrationParams().getTrayReg();
                 break;
-            // Starts the calibration cycle
+       
 
             // RUNNING    
             case Running:

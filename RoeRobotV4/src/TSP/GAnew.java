@@ -1,16 +1,10 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package TSP;
 
 import static java.lang.Math.abs;
 import RoeRobot.Coordinate;
 
 /**
- *
+ * This class does a Genetic Algorithm
  * @author Yngve
  */
 public class GAnew {
@@ -78,23 +72,7 @@ public class GAnew {
                 mutateWithStartCoord(newPopulation.getTour(i));
             }
 
-//            // Check if the result has been improved 
-//            if ((int)currentFittestTour.getTotalDistance() <= (int)newPopulation.getFittest().getTotalDistance()) {
-////                System.out.println(pop.getFittest().getTotalDistance());
-////                System.out.println(newPopulation.getFittest().getTotalDistance());
-//                noImprovemnetRange++;
-//                currentFittestTour = newPopulation.getFittest();
-//                // If no improvement are done for 10 iterations. 
-//                if (noImprovemnetRange >= 2) {
-//                    noImprovement = true;
-//                    System.out.println("No improvmenet after: " + j + " generations");
-//                }
-//            }
-//
-//            if (cnt++ == 5000) {
-//                System.out.println("Current total dist:  " + newPopulation.getFittest().getTotalDistance());
-//                cnt = 0;
-//            }
+
             // Update population. 
             pop = newPopulation;
             

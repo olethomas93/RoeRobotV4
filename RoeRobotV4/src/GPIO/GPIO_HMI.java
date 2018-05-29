@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GPIO;
 
 import com.pi4j.io.gpio.*;
@@ -15,7 +10,7 @@ import com.pi4j.util.CommandArgumentParser;
 import RoeRobot.RoeRobotFasade;
 
 /**
- *
+ * GPIO Pins for HMI
  * @author Yngve
  */
 public class GPIO_HMI {
@@ -112,7 +107,7 @@ public class GPIO_HMI {
     }
 
     public void stopSequens() {
-        
+        this.roeFasade.stopCycle();
     }
 
     public void emegencySequens() {

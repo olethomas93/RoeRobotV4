@@ -8,7 +8,7 @@ package GUI;
 import javax.swing.JLabel;
 
 /**
- *
+ * Loading fish
  * @author Laptop1
  */
 public class Loading extends javax.swing.JFrame {

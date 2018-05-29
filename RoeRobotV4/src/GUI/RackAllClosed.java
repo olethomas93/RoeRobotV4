@@ -8,8 +8,8 @@ package GUI;
 import javax.swing.JLabel;
 
 /**
- *
- * @author Laptop1
+ * Show all trays closed in rack 
+ * @author Kristoffer
  */
 public class RackAllClosed extends javax.swing.JPanel {
 

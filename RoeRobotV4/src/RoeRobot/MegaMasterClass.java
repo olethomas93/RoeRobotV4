@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package RoeRobot;
 
 import GUI.RoeBot;
@@ -13,10 +8,14 @@ import RoeRobot.RoeAnalyser;
 import RoeRobot.RoeRobotFasade;
 
 import java.util.concurrent.ScheduledExecutorService;
-import org.opencv.core.Core;
+
+
+
 
 /**
- *
+ *  THE MAIN CLASS
+ *  This class creates the thread. Has control of all the running threads
+ *  And creates the objects in the order they need to be
  * @author Yngve
  */
 public class MegaMasterClass {
@@ -34,11 +33,14 @@ public class MegaMasterClass {
         new MegaMasterClass();
     }
 
+    
+    
     // Thread pool for keeping track of threads. 
     private ScheduledExecutorService threadPool;
 
-    public MegaMasterClass() throws PlatformAlreadyAssignedException {
-        
+    public MegaMasterClass() throws PlatformAlreadyAssignedException 
+    {
+        //
         this.threadPool = Executors.newScheduledThreadPool(10);      
         
         RoeAnalyser roeAnalyser = new RoeAnalyser(this.threadPool);
@@ -46,11 +48,9 @@ public class MegaMasterClass {
          GPIO_HMI gpioHMI = new GPIO_HMI(roeRobotFasade);
         
         //START the GUI
-           /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RoeBot(roeRobotFasade).setVisible(true);
-
             }
         });
 
