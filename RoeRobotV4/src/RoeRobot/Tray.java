@@ -45,7 +45,7 @@ public class Tray
     
     
       //Distance from bottom of flag to top of water surface on tray
-    private double bottomFlagToTraySurface = 11;
+    private double bottomFlagToTraySurface = 11 + 10;
     //Distance from bottom of flag to top of tray
     private double bottomFlagToTopOfTray = 26;
       //Distance from the flag Z pos to the magnet -> Z value offset
@@ -59,10 +59,10 @@ public class Tray
     //Distance from flag Z pos to the suction point. In reality, from bottom sensor to the suction end. Z offset
     private double distFlagPosToSucktionZ = distFlagToEndEffector + bottomFlagToTraySurface;
     //Distance from the calibrated Y MAX pos to where the tray should be put back. In reality, where the robot should leave the tray. in Y position.
-    private double closeTrayOffsetX = 15;
+    private double closeTrayOffsetY = 15;
+    private double openTrayOffsetY = 38;
     //The default Z position.. Used to store the calculated Z-pos
     private double defaultZ;
-    
     
   
     //Wanted distance from the tray water to the camera lens
@@ -76,7 +76,6 @@ public class Tray
     //From camera to tray water, store the calculated camera height
     private double cameraHeight;
        
-    
     
     //Coordinate for diff positions related to the tray
     //Coord for the handle when tray its closed
@@ -100,9 +99,11 @@ public class Tray
     private double imageWidth = 50;
     private double imageHeight = 100;
     
+    
     // list holding positions of camera coordinates
     private final ArrayList<Coordinate> cameraPositions;
 
+    
     public Tray(int nr, int flagposZ) 
     {
         //Flag positions in Z axis, at bottom of flag
@@ -135,14 +136,14 @@ public class Tray
         
         // create top row of coordinates
         // antall bilder skal være 12 
-        for(int i = 0; i <= 1; i++)
+        for(int i = 4; i <= 8; i++)
         {
             Coordinate nextCoord = new Coordinate(this.imageCoordX + this.imageWidth*i, this.imageCoordY + this.imageHeight, cameraHeight);
             this.addCameraPos(nextCoord);
         }
         
         // create bottom row of coordinates
-        for(int i = 1; i >= 0; i--)
+        for(int i = 8; i >= 4; i--)
         {
             Coordinate nextCoord = new Coordinate(this.imageCoordX + this.imageWidth*i, this.imageCoordY, cameraHeight);
             this.addCameraPos(nextCoord);
@@ -345,9 +346,9 @@ public class Tray
            //Create the coordinate for the Z position for the handle on the tray
            this.handleZCoord = new Coordinate(this.flagPosZ-this.distFlagPosToMagnetZ);
            //Create the open tray coordinate
-           this.openTrayCoord = new Coordinate(xParam/2, 10);
+           this.openTrayCoord = new Coordinate(xParam/2, openTrayOffsetY);
            //Create the coordinate for closing the tray, just Y movement in reality
-           this.closeTrayCoord = new Coordinate(xParam/2, yParam-this.closeTrayOffsetX);
+           this.closeTrayCoord = new Coordinate(xParam/2, yParam-this.closeTrayOffsetY);
            //this.closeTrayZCoord = new Coordinate(xParam/2, yParam-this.closeTrayOffsetX);
            //The z coord for picking up roe
            this.pickupRoeZCoord = new Coordinate(this.defaultZ-distFlagPosToSucktionZ);

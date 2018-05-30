@@ -172,7 +172,7 @@ public class ImageProcessing implements Runnable
         double imageWidth = processingImage.getImage().width();
         
         // calculate length of diagonal of image in mm
-        double diagonalMillimeter = distance * Math.cos((fieldOfView/2)*(Math.PI/180)) * 2;
+        double diagonalMillimeter = distance * Math.tan((fieldOfView/2)*(Math.PI/180)) * 2;
         
         // calculate length of diagonal in pixels
         double diagonalPixel = Math.sqrt(Math.pow(imageHeight, 2) + Math.pow(imageWidth, 2));

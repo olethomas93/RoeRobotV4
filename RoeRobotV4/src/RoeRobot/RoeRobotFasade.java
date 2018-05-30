@@ -35,7 +35,7 @@ public class RoeRobotFasade
         // Set the state of the robot as start
         this.roeAnalyser.startRobot();
         // start the robot
-        this.threadPool.execute(roeAnalyser);
+       // this.threadPool.execute(roeAnalyser);
 
     }
 

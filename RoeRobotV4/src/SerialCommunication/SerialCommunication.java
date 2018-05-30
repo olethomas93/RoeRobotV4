@@ -978,11 +978,11 @@ public class SerialCommunication extends Thread implements SerialInputListener
         //Copy all the values to a string
         for(int i=0; i<payload.length; ++i)
         {
-            valueString += "," + payload[i];
+            valueString += ", " + payload[i];
         }
         
         //Append all the string with the value at last and return it
-        return (devAddr + "," + cmdString + "," + valueString);
+        return (devAddr + ", " + cmdString + " " + valueString);
     }
 
      

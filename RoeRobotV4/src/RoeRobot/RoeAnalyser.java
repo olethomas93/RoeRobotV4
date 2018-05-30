@@ -6,6 +6,8 @@ import ImageProcessing.RoeImage;
 import java.util.ArrayList;
 import java.util.concurrent.ScheduledExecutorService;
 import TSP.PatternOptimalization;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The main switch case Roe Analyser
@@ -16,7 +18,12 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
 
     @Override
     public void run() {
+        System.out.println("Thread Started");
+         while(running)
+        {
         cycleCase();
+        }
+         System.out.println("Thread Dead");
     }
 
 
@@ -27,6 +34,7 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
         Calibrate,
         Running,
         Waiting,
+        Done,
         Fault;
     }
 
@@ -45,6 +53,9 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
     //Pause boolean
     private boolean pause = false;
 
+         //Pause boolean
+    private boolean running = true;
+            
     // Velocity for running
     private int runningVelocity = 150; // rev/min
     // Velocity while handeling tray 
@@ -65,9 +76,13 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
     private int searchInterval = 100;
     private long timerTime = 0;
     
-    // Number of the current tray. 
+    //Current working tray 
     private Tray currentTray = null;
-
+    //
+    int takePictureNr = 0;
+      //Number of the next tray
+    int trayNumber = 2;
+    
     // Tray register 
     private TrayRegister trayRegister;
 
@@ -108,6 +123,10 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
     
     
     private void cycleCase() {
+        
+       
+               // System.out.println("currentState " + currentState);
+      
 
         switch (currentState) {
             // CALIBRATE
@@ -119,35 +138,35 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
                // Starts the calibration cycle
                 this.roeAnalyserDevice.calibrate();
                 this.trayRegister = this.roeAnalyserDevice.getCalibrationParams().getTrayReg();
+                currentState = State.Done;
                 break;
        
 
             // RUNNING    
             case Running:
-                // Turn on ligth
-                this.roeAnalyserDevice.changeRGBLight(4, 4, 4);
-                //Set the running state to
+               
+                
+                if(!this.trayIsOpen && trayNumber <= trayRegister.getNumberOfTrays())
+                {//Set the running state to
                 runningState = RunningStates.OpenTray;
-                //Set the working bool
-                boolean working = true;
+                 }
                 
-                //The tray number
-                int trayNumber = 1;
-                int takePictureNr = 0;
-
-                //TODO: Make readu for changing color. 
+          
                 
-                while (working) {
                     //If pause is set
-                   if(!this.pause)
+                if(!this.pause)
                 {
+                    //System.out.println("runningState " + runningState);
                     //The different sates in running
                     switch (runningState) 
                     {
+                        
                         //Open the tray
                         case OpenTray:
                             if (trayNumber <= trayRegister.getNumberOfTrays()) 
                             {
+                                 
+                               
                                 this.currentTray = this.trayRegister.getTray(trayNumber);
                                 // Set speed 
 
@@ -156,31 +175,50 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
                                 //Open the current tray
                                 if (this.roeAnalyserDevice.openTray(this.currentTray)) 
                                 {
+                                    // Turn on ligth
+                                    this.roeAnalyserDevice.changeRGBLight(10, 10, 10);
+                                    try {
+                                        Thread.sleep(5);
+                                    } catch (InterruptedException ex) {
+                                        Logger.getLogger(RoeAnalyser.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
                                     //Set variables for a open tray
                                     this.trayIsOpen = true;
                                     takePictureNr = 0; //Set picture nr to 0
                                     runningState = RunningStates.TakePictures;
+                                    
                                 } else 
                                 {
-                                    this.setCurrentState(State.Fault);runningState = RunningStates.Finished;
+                                    System.out.println("** FAILURE **");
+                                    this.setCurrentState(State.Fault);
+                                    runningState = RunningStates.Finished;
                                 }
-                            } else {
+                            } 
+                            else 
+                            {
+                                System.out.println("** No more trays **");
                                 runningState = RunningStates.Finished;
+                                
                             }
                             System.out.println("Opened tray");
+                            System.out.println("runningState is " + runningState + " and State is " + currentState);
                             break;
                             
                             
                         case TakePictures: 
                              System.out.println("Taking picture " + takePictureNr);
+                             
                              if(takePictureNr < this.currentTray.getNumberOfCameraCoordinates())
                                  {
-                                     RoeImage currentImage = this.roeAnalyserDevice.takePicture(this.currentTray, takePictureNr++);
+                                     RoeImage currentImage = this.roeAnalyserDevice.takePicture(this.currentTray, takePictureNr);
+                                     takePictureNr++;
                                     this.imageProsseser.addImageToProcessingQueue(currentImage); 
+                                    System.out.println("Took picture");
                                     
                                  }
                              else
                                  {
+                                          System.out.println("Sent to process image");
                                      runningState = RunningStates.ProcessImages;
                                  }
                             break;
@@ -208,13 +246,12 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
                                 this.patternOptimalizater.addCoordinates(deadRoeList);
                                 runningState = RunningStates.RemoveRoes;
                             }
+                           // System.out.println("Waiting process");
                             break;
                             
                             //Remove the dead roe
                         case RemoveRoes:
-                            
-                            //this.currentTray.increaseNrOfRemovedRoe(trayNumber);
-                            
+                                
                               System.out.println("Removing the dead roe");
                                // test for reducing nr of points
                                 ArrayList<Coordinate> newArray = new ArrayList();
@@ -224,12 +261,12 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
                                 newArray = this.patternOptimalizater.doOptimalization(xMMPerSec,yMMPerSec);
                                 System.out.println("Optimalization is one");
                                 
-                              //  ArrayList<Coordinate> newArray2 = new ArrayList();
-                              //  newArray2.add(newArray.get(1));
-                             //   newArray2.add(newArray.get(2));
-                             //   newArray2.add(newArray.get(3));
-                                System.out.println("Device - Remove roe arraylist");
-                                this.roeAnalyserDevice.removeRoe(newArray);//this.patternOptimalizater.doOptimalization());
+                                ArrayList<Coordinate> newArray2 = new ArrayList();
+                                newArray2.add(newArray.get(1));
+                                newArray2.add(newArray.get(2));
+                                newArray2.add(newArray.get(3));
+                                System.out.println("Device - Remove roe arraylist " + newArray.size());
+                                this.roeAnalyserDevice.removeRoe(newArray2);//this.patternOptimalizater.doOptimalization());
                                 runningState = RunningStates.CloseTray;
                             break;
                             
@@ -239,8 +276,11 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
                               // Close the tray. 
                                 if (this.roeAnalyserDevice.closeTray(this.currentTray)) 
                                 {
+                                                   //Turn off lights
+                                    this.roeAnalyserDevice.changeRGBLight(0, 0, 0);
                                     this.trayIsOpen = false;
                                     this.currentTray = null;
+                                    trayNumber++;
                                      runningState = RunningStates.OpenTray;
                                 } else {
                                     this.setCurrentState(State.Fault);
@@ -250,8 +290,9 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
                             //The robot is finished
                         case Finished:
                                  System.out.println("FINISHED");
+                                 //trayNumber = 0;
                             this.resetTimer();
-                            currentState = State.Waiting;
+                            setCurrentState(State.Waiting);
                             break;
                             
                             //Stop the robot
@@ -261,42 +302,55 @@ public class RoeAnalyser implements ImageProcessingListener, Runnable {
                                 {
                                     this.roeAnalyserDevice.closeTray(this.currentTray);
                                 }
+                                currentState = State.Done;
                                 //runningState = RunningStates.Finished;
                             break;   
                             
+                         
+                            
+                        
+                            
                              default:
+                                  System.out.println("defaultwtf");
                                  break;
                             //  this.roeAnalyserDevice.changeVelocity(this.handelingTrayVelicity);
               
-         
                             }
                             
                     }
-                    }
-
+                    
+                //System.out.println("End of running");
                 
-
-                this.roeAnalyserDevice.turnOffLight();
+    
                 break;
                 //Wait for the next searching interval
             case Waiting:
+                 //System.out.println("Main is waiting");
                 if(timerHasPassed(this.searchInterval))
                     {
                         System.out.println("WAITING DONE");
-                        trayNumber = 0;
-                        this.runningState = RunningStates.OpenTray;
-                    }
-                
+                        trayNumber = 1;
+                        this.setCurrentState(State.Running);
+                    }   
                 break;
 
             case Fault:
                 //Wait for interval
                 System.out.println("RoeAnalyzer in Fault - something happened when trying to move the robot. Check status.");
+                currentState = State.Done;
+                break;
+                
+                  case Done:
+                      // System.out.println("Main is done");
+                //Wait for interval
+                   // running = false;
                 break;
             default:
                 System.out.println("Wtf");
                 break;
         }
+        
+        
     }
 
     /**

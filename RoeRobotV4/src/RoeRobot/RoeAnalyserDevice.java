@@ -415,6 +415,12 @@ public class RoeAnalyserDevice implements StatusListener
             //Switch case to do the tasks;
             switch (task)
             {
+                  case moveToDefault:
+                    //Move to default after opening tray
+                    move(workTray.getDefaultZPosCoord());
+                    setStatusToBusy();
+                    task = moveRobotToCloseHandleXY;
+                    break;
                 //Move robot to the position of the handle
                 case moveRobotToCloseHandleXY:
                     //Wait for the Robot to finish(get in ready to recieve state) before sending more requests to it
@@ -502,12 +508,7 @@ public class RoeAnalyserDevice implements StatusListener
                         task = done;        //End the task
                     }
                     break;
-                case moveToDefault:
-                    //Move to default after opening tray
-                    move(workTray.getDefaultCoord());
-                    setStatusToBusy();
-                    task = done;
-                    break;
+              
 
                 case done:
                     System.out.println("Closed tray:" + workTray.getTrayNr());
@@ -535,18 +536,22 @@ public class RoeAnalyserDevice implements StatusListener
         boolean succesful = true;
 
         Iterator itr = cordinates.iterator();
-
+        System.out.println("We ITR");
         while (itr.hasNext() && succesful)
         {
+            System.out.println("While loop");
+            
             //if paused is set, dont perform any actions
-            if (this.isPause())
+            if (!this.isPause())
             {
+                System.out.println("While loop");
                 //Get the next coordinate
                 Coordinate cord = (Coordinate) itr.next();
 
                 //Wait for the Robot to finish(get in ready to recieve state) before sending more requests to it
                 if (robotIsReady(waitTime) && succesful)
                 {
+                    System.out.println("Robot is Ready");
                     //Move the robot to the dead roe position
                     this.move(cord);
                     this.setStatusToBusy();
@@ -1112,7 +1117,7 @@ public class RoeAnalyserDevice implements StatusListener
      * @param blue Blue value
      * @return Returns true if it was succesfull
      */
-    public synchronized boolean changeRGBLight(int red, int green, int blue)
+    public synchronized void changeRGBLight(int red, int green, int blue)
     {
         // Boolean for check if sucsess
         boolean sucsess = false;
@@ -1121,11 +1126,14 @@ public class RoeAnalyserDevice implements StatusListener
         //Make the control byte to be sent
         changeLedColor.setMultipleIntValue(red, green, blue);
         changeLedColor.setForElevatorRobot(false);
-
-        if (this.robotIsReady(waitTime))
+        
+        serialComm.addSendQ(changeLedColor);
+        
+       /* if (this.robotIsReady(waitTime))
         {
             //Send command
             serialComm.addSendQ(changeLedColor);
+           // setStatusToBusy();
             sucsess = true;
         } else
         {
@@ -1133,6 +1141,7 @@ public class RoeAnalyserDevice implements StatusListener
         }
 
         return sucsess;
+        */
     }
 
     /**

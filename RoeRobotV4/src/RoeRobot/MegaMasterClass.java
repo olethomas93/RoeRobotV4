@@ -45,7 +45,7 @@ public class MegaMasterClass {
         
         RoeAnalyser roeAnalyser = new RoeAnalyser(this.threadPool);
         RoeRobotFasade roeRobotFasade = new RoeRobotFasade(roeAnalyser, this.threadPool);
-         GPIO_HMI gpioHMI = new GPIO_HMI(roeRobotFasade);
+         //GPIO_HMI gpioHMI = new GPIO_HMI(roeRobotFasade);
         
         //START the GUI
         java.awt.EventQueue.invokeLater(new Runnable() {
